@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2008
+
+Project("{3C2B9F60-D959-2C13-EDBC-6F317F8B7B6D}") = "Betterayal", "Assembly-CSharp.csproj", "{A7B12470-CAFB-C6F5-A145-31507593B6A0}"
+EndProject
+Project("{3C2B9F60-D959-2C13-EDBC-6F317F8B7B6D}") = "Betterayal", "Assembly-CSharp-Editor.csproj", "{216C5CFF-32A8-EFEE-5104-884CE3A07068}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7B12470-CAFB-C6F5-A145-31507593B6A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7B12470-CAFB-C6F5-A145-31507593B6A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7B12470-CAFB-C6F5-A145-31507593B6A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7B12470-CAFB-C6F5-A145-31507593B6A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{216C5CFF-32A8-EFEE-5104-884CE3A07068}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{216C5CFF-32A8-EFEE-5104-884CE3A07068}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{216C5CFF-32A8-EFEE-5104-884CE3A07068}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{216C5CFF-32A8-EFEE-5104-884CE3A07068}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Assembly-CSharp.csproj
+	EndGlobalSection
+EndGlobal
