@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 public class MainMenuGUI : MonoBehaviour
 {
     bool gameStarted = false;
+    public GameManager gameManager;
     // Use this for initialization
     void Start()
     {
@@ -15,16 +16,16 @@ public class MainMenuGUI : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (GameManager.State() == GameManager.state.GoingToReadyScreen)
+        if (gameManager.gameState == GameManager.state.GoingToReadyScreen)
         {
             Camera.main.transform.position = Camera.main.transform.position + new Vector3(0f, -10.0f, 0f) * Time.fixedDeltaTime;
-            if (Camera.main.transform.position.y < -10)
+            if (Camera.main.transform.position.y <= -9.9)
             {
                 Camera.main.transform.position = new Vector3(0f, -10f, -10f);
-                GameManager.find().WaitForPlayers();
+                gameManager.gameState = GameManager.state.WaitingAtReadyScreen;
             }
         }
-        if (GameManager.State() == GameManager.state.MainMenu)
+        if (gameManager.gameState == GameManager.state.MainMenu)
         {
             GetComponent<Canvas>().enabled = true;
         }
@@ -38,7 +39,7 @@ public class MainMenuGUI : MonoBehaviour
 
     public void StartGame()
     {
-        GameManager.SetState(GameManager.state.GoingToReadyScreen);
+        gameManager.gameState = GameManager.state.GoingToReadyScreen;
 
     }
 

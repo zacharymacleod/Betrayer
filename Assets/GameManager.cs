@@ -10,8 +10,7 @@ public class GameManager : MonoBehaviour
 
     public enum state { MainMenu, GoingToReadyScreen, WaitingAtReadyScreen, DetermineBetrayer, AnimateBetrayerNotification, Game, VoteStart, VoteFinish, BetrayerFight, Finished };
 
-    [SerializeField]
-    public static state gameState = state.MainMenu;
+    public state gameState = state.MainMenu;
 
     int betrayer;
     int level;
@@ -30,6 +29,27 @@ public class GameManager : MonoBehaviour
         camera = GameObject.Find("Main Camera").transform;
         level = 0; //0, 1, or 2
         Object.DontDestroyOnLoad(transform.gameObject);
+
+        //Player 1
+        Physics2D.IgnoreCollision(Characters[0].gameObject.GetComponent<Collider2D>(), Characters[1].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[0].gameObject.GetComponent<Collider2D>(), Characters[2].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[0].gameObject.GetComponent<Collider2D>(), Characters[3].gameObject.GetComponent<Collider2D>());
+
+        //Player 2
+        Physics2D.IgnoreCollision(Characters[1].gameObject.GetComponent<Collider2D>(), Characters[0].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[1].gameObject.GetComponent<Collider2D>(), Characters[2].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[1].gameObject.GetComponent<Collider2D>(), Characters[3].gameObject.GetComponent<Collider2D>());
+
+        //Player 3
+        Physics2D.IgnoreCollision(Characters[2].gameObject.GetComponent<Collider2D>(), Characters[0].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[2].gameObject.GetComponent<Collider2D>(), Characters[1].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[2].gameObject.GetComponent<Collider2D>(), Characters[3].gameObject.GetComponent<Collider2D>());
+
+        //Player 4
+        Physics2D.IgnoreCollision(Characters[3].gameObject.GetComponent<Collider2D>(), Characters[0].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[3].gameObject.GetComponent<Collider2D>(), Characters[1].gameObject.GetComponent<Collider2D>());
+        Physics2D.IgnoreCollision(Characters[3].gameObject.GetComponent<Collider2D>(), Characters[2].gameObject.GetComponent<Collider2D>());
+
     }
 
     void FixedUpdate()
@@ -54,29 +74,43 @@ public class GameManager : MonoBehaviour
         {
 
             case state.MainMenu:
-                //camera.position = new Vector3(0f, 18.75f, -10f);
                 break;
 
             case state.GoingToReadyScreen:
-
+                if(Camera.main.transform.position.y <= -9.9)
+                {
+                    print("Shit's fucked");
+                    gameState = state.WaitingAtReadyScreen;
+                    Camera.main.transform.position =  new Vector3(0, -10f, 0);
+                }
                 break;
 
             case state.WaitingAtReadyScreen:
                 if(areAllPlayersInGame)
                 {
                     gameState = state.DetermineBetrayer;
+                    print(gameState);
                 }
                 break;
 
             case state.DetermineBetrayer:
-                Characters[Random.Range(0, 3)].isBetrayer = true;
-                gameState = state.AnimateBetrayerNotification;
+                for (int i = 0; i < 4; i++ )
+                {
+                    Characters[i].device.Vibrate(650000000);
+                }
+                betrayer = Random.Range(0, 3);
+                Characters[betrayer].isBetrayer = true;
+                Characters[int].device.
+                Invoke("disableBetrayerVibrate", 5f);
+                Invoke("disableOtherVibrates", 10f);
                 
+                print(gameState);
                 break;
 
             case state.AnimateBetrayerNotification:
                 //Play Animation
                 gameState = state.Game;
+                print(gameState);
                 break;
 
             case state.Game:
@@ -105,7 +139,7 @@ public class GameManager : MonoBehaviour
 
                 break;
         }
-        //print(gameState);
+        print(gameState);
     }
 
 
@@ -115,6 +149,19 @@ public class GameManager : MonoBehaviour
 
     }
 
+    void disableBetrayerVibrate()
+    {
+
+        Characters[betrayer].device.Vibrate(0);
+    }
+    void disableOtherVibrates()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            Characters[i].device.Vibrate(0);
+        }
+        gameState = state.AnimateBetrayerNotification;
+    }
 
     CharacterController FindPlayerUsingDevice(InputDevice inputDevice)
     {
@@ -178,21 +225,15 @@ public class GameManager : MonoBehaviour
     {
         return GameObject.FindObjectOfType<GameManager>();
     }
-    public void WaitForPlayers()
+    public void WaitingAtReadyScreen()
     {
         gameState = state.WaitingAtReadyScreen;
     }
     
 
-    public static state State()
+    public state State()
     {
         return gameState;
-    }
-
-    public static void SetState(state newState)
-    {
-        gameState = newState;
-        GameManager.find().StateSwitched();
     }
 
 

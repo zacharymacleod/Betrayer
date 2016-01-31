@@ -14,6 +14,8 @@ public class CharacterController : MonoBehaviour
     public Vector2 spellCooldown;
     public Vector2 targetDirection;
     public float moveSpeed;
+    float v;
+    float h;
     int playerNumber;
 
 
@@ -42,14 +44,14 @@ public class CharacterController : MonoBehaviour
     void ManageMovement(float horizontal, float vertical)
     {
 
-        if (horizontal != 0f || vertical != 0f)
+        /*if (horizontal != 0f || vertical != 0f)
         {
             animator.SetBool("moving", true); animateWalk(horizontal, vertical);
         }
         else
         {
             animator.SetBool("moving", false);
-        }
+        }*/
 
         movement = new Vector2(horizontal, vertical);
         rigidbody2D.velocity = movement;
@@ -95,15 +97,16 @@ public class CharacterController : MonoBehaviour
                     castTime = 0.6f;
                 }
             }
-
+            
             //if you are casting a spell you are slower
             if (!castingSpell)
             {
-                float v = device.LeftStickY * moveSpeed;
-                float h = device.LeftStickX * moveSpeed;
+                 v = device.LeftStickY * moveSpeed;
+                 h = device.LeftStickX * moveSpeed;
 
                 ManageMovement(h, v);
             }
+            /*
             if (castingSpell)
             {
                 float v = device.LeftStickY * castMoveSpeed;
@@ -118,7 +121,7 @@ public class CharacterController : MonoBehaviour
                 targetDirection = movement;
                 targetDirection.Normalize();
             }
-
+            
             //spell cooldowns
             if (currentCooldownTime == spellCooldownPeriod)
             {
@@ -131,7 +134,7 @@ public class CharacterController : MonoBehaviour
             else if (!spellOffCooldown)
             {
                 spellOffCooldown = true;
-            }
+            }*/
         }
     }
     void animateWalk(float h, float v)
